@@ -1,0 +1,44 @@
+name: Bug report
+description: Report a reproducible LuckyTag defect without sensitive data
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Do not include API keys, identity tickets, chat content, group IDs,
+        private knowledge, or unredacted logs. Security issues belong in a
+        private security advisory.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the observed and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include deterministic steps using sanitized data.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: LuckyTag version or commit
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: macOS, architecture, Node.js and pnpm versions
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed credentials, personal data, chat content and private knowledge from this report.
+          required: true

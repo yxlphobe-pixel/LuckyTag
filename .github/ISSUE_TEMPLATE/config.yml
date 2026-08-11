@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability privately
+    url: https://github.com/yxlphobe-pixel/LuckyTag/security/advisories/new
+    about: Do not disclose exploitable details or secrets in a public issue.
