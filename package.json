@@ -1,0 +1,98 @@
+{
+  "name": "luckytag2.0",
+  "version": "2.0.0",
+  "private": true,
+  "description": "LuckyTag 2.0 — a local-first personal copilot for macOS",
+  "main": "./out/main/index.js",
+  "author": "LuckyTag",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/yxlphobe-pixel/LuckyTag#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yxlphobe-pixel/LuckyTag.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yxlphobe-pixel/LuckyTag/issues"
+  },
+  "type": "module",
+  "packageManager": "pnpm@10.28.2",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "pnpm run typecheck && electron-vite build",
+    "preview": "electron-vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "lint": "pnpm run typecheck",
+    "assets:sanitize": "node scripts/strip-png-metadata.mjs build/luckytag-reborn-icon-source.png src/renderer/src/assets/luckytag-reborn-icon.png docs/assets/luckytag-architecture.png",
+    "security:scan": "node scripts/scan-secrets.mjs",
+    "security:audit": "pnpm audit --prod --audit-level=high",
+    "check": "pnpm run security:scan && pnpm run security:audit && pnpm run typecheck && pnpm run test && pnpm run build",
+    "test": "vitest run",
+    "test:claude:e2e": "LUCKYTAG_RUN_REAL_CLAUDE_E2E=1 vitest run tests/daemon/claude-code-real-e2e.test.ts",
+    "test:codex:runtime:e2e": "LUCKYTAG_RUN_REAL_CODEX_E2E=1 vitest run tests/daemon/codex-runtime-real-e2e.test.ts",
+    "test:byok:e2e": "LUCKYTAG_RUN_REAL_BYOK_E2E=1 vitest run tests/daemon/codex-byok-real-e2e.test.ts",
+    "test:metric-layout:e2e": "LUCKYTAG_RUN_METRIC_LAYOUT_E2E=1 vitest run tests/renderer/metric-card-electron-e2e.test.ts",
+    "test:watch": "vitest",
+    "package:mac": "pnpm run build && electron-builder --mac dir --arm64 && pnpm run verify:package",
+    "verify:package": "node scripts/verify-packaged-daemon.cjs"
+  },
+  "pnpm": {
+    "overrides": {
+      "brace-expansion@<1.1.18": "1.1.18",
+      "brace-expansion@>=2.0.0 <2.1.4": "2.1.4",
+      "brace-expansion@>=4.0.0 <5.0.9": "5.0.9",
+      "fast-uri@<3.1.5": "3.1.5",
+      "js-yaml@>=4.0.0 <4.3.1": "4.3.1",
+      "nanoid@<3.3.17": "3.3.17",
+      "postcss@<8.5.23": "8.5.23",
+      "tar@<=7.5.20": "7.5.21",
+      "undici@<6.28.0": "6.28.0",
+      "undici@>=7.0.0 <7.29.0": "7.29.0"
+    }
+  },
+  "dependencies": {
+    "@electron-toolkit/utils": "^4.0.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@electron/fuses": "^2.1.3",
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.2.0",
+    "electron": "^43.1.1",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^5.0.0",
+    "typescript": "^6.0.3",
+    "vite": "^7.3.6",
+    "vitest": "^4.1.10"
+  },
+  "build": {
+    "appId": "com.luckytag2.desktop",
+    "productName": "LuckyTag 2.0",
+    "asar": true,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
+    "afterPack": "scripts/after-pack.cjs",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "icon": "build/luckytag-reborn-icon-source.png",
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "gatekeeperAssess": false,
+      "identity": "-",
+      "target": [
+        "dir"
+      ]
+    }
+  }
+}

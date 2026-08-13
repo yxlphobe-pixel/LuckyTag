@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "onboardingComplete": false,
+  "groups": [
+    {
+      "id": "replace-with-channelId",
+      "label": "LuckyTag Test Group",
+      "enabled": false
+    }
+  ],
+  "knowledgeSources": [
+    {
+      "id": "known-test",
+      "type": "local-directory",
+      "label": "Known-Answer Test Corpus",
+      "path": "./examples/knowledge",
+      "enabled": true
+    }
+  ],
+  "replyPolicy": {
+    "enabled": false,
+    "dryRun": true,
+    "pollIntervalSeconds": 300,
+    "lookbackMinutes": 15,
+    "confidenceThreshold": 0.2,
+    "maxReplyLength": 900,
+    "maxRepliesPerHour": 8,
+    "followUpHours": 6,
+    "markExistingIgnored": true
+  }
+}
